@@ -20,58 +20,16 @@ Yet, our vision extends beyond mere recognition and interpretation. By integrati
 In essence, our project represents a convergence of cutting-edge technology and compassionate innovation, empowering individuals within the deaf and hard-of-hearing communities to engage in seamless, meaningful communication. Through our endeavours, we aspire to break down barriers, foster inclusivity, and pave the way towards a world where communication knows no bounds.
 
 ## Data Collection
-![Capture](https://github.com/Cycl0tr0n/Fabric-Hackathon/assets/129075535/15c48623-a0cd-4260-a1d7-8cb47046972b)
+First we capture images from a webcam and organizes them into different classes. Where we create a directory for each class and saves a specified number of images for each class into their respective directories. The images are captured. This could be useful for creating a dataset for machine learning purposes.
 
 ## Dataset Creation
-```python
-import os
-import pickle
+Then we recognise hand gesture. We read images from a directory, use the MediaPipe library to detect hand landmarks, normalizes these landmarks, and stores them along with their labels in a pickle file for later use. The landmarks are points on the hand, like the tips of the fingers and the wrist. Normalizing the landmarks involves adjusting their coordinates relative to the minimum x and y values. This is done to make the data uniform regardless of where the hand was in the image. The pickle file can be used later for machine learning task as training the model.
 
-import mediapipe as mp
-import cv2
-import matplotlib.pyplot as plt
+## Training the model
+We train a machine learning model to recognize hand gestures. It loads hand gesture data and labels from a pickle file, splits the data into training and testing sets, trains a Random Forest Classifier on the training data, and evaluates its performance on the testing data. The trained model is then saved to a pickle file for future use.
 
+## Model Prediction
+This script captures video from the webcam, detects hand landmarks in each frame using MediaPipe, and uses a pre-trained model to predict the hand gesture being made. The predicted gesture is then displayed on the video frame. Then we process frames in real-time until manually stopped.
 
-mp_hands = mp.solutions.hands
-mp_drawing = mp.solutions.drawing_utils
-mp_drawing_styles = mp.solutions.drawing_styles
-
-hands = mp_hands.Hands(static_image_mode=True, min_detection_confidence=0.3)
-
-DATA_DIR = './data'
-
-data = []
-labels = []
-for dir_ in os.listdir(DATA_DIR):
-    for img_path in os.listdir(os.path.join(DATA_DIR, dir_)):
-        data_aux = []
-
-        x_ = []
-        y_ = []
-
-        img = cv2.imread(os.path.join(DATA_DIR, dir_, img_path))
-        img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-
-        results = hands.process(img_rgb)
-        if results.multi_hand_landmarks:
-            for hand_landmarks in results.multi_hand_landmarks:
-                for i in range(len(hand_landmarks.landmark)):
-                    x = hand_landmarks.landmark[i].x
-                    y = hand_landmarks.landmark[i].y
-
-                    x_.append(x)
-                    y_.append(y)
-
-                for i in range(len(hand_landmarks.landmark)):
-                    x = hand_landmarks.landmark[i].x
-                    y = hand_landmarks.landmark[i].y
-                    data_aux.append(x - min(x_))
-                    data_aux.append(y - min(y_))
-
-            data.append(data_aux)
-            labels.append(dir_)
-
-f = open('data.pickle', 'wb')
-pickle.dump({'data': data, 'labels': labels}, f)
-f.close()
-```
+## Auto-Correction Using Azure Open-AI
+Here we provide the original text and the code sends it to the model, which is trained on examples of good writing. The model identifies errors and sends back a corrected version. The code then compares the corrected text with the original. In essence, this code acts like a proofreader, helping to improve our text.
