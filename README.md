@@ -24,12 +24,20 @@ First we capture images from a webcam and organizes them into different classes.
 
 ## Dataset Creation
 Then we recognise hand gesture. We read images from a directory, use the MediaPipe library to detect hand landmarks, normalizes these landmarks, and stores them along with their labels in a pickle file for later use. The landmarks are points on the hand, like the tips of the fingers and the wrist. Normalizing the landmarks involves adjusting their coordinates relative to the minimum x and y values. This is done to make the data uniform regardless of where the hand was in the image. The pickle file can be used later for machine learning task as training the model.
+![Screenshot (15)](https://github.com/Cycl0tr0n/Fabric-Hackathon/assets/129075535/1ba02ddd-26ef-4e44-80dc-fb95b2531999)
+
 
 ## Training the model
 We train a machine learning model to recognize hand gestures. It loads hand gesture data and labels from a pickle file, splits the data into training and testing sets, trains a Random Forest Classifier on the training data, and evaluates its performance on the testing data. The trained model is then saved to a pickle file for future use.
+![Screenshot (4)](https://github.com/Cycl0tr0n/Fabric-Hackathon/assets/129075535/167cb142-4692-4e82-86b8-d65734c11d8d)
+
 
 ## Model Prediction
 This script captures video from the webcam, detects hand landmarks in each frame using MediaPipe, and uses a pre-trained model to predict the hand gesture being made. The predicted gesture is then displayed on the video frame. Then we process frames in real-time until manually stopped.
+![Screenshot (13)](https://github.com/Cycl0tr0n/Fabric-Hackathon/assets/129075535/f2a2c19b-bc07-43ac-aa6f-455e076a524d)
+
 
 ## Auto-Correction Using Azure Open-AI
 Here we provide the original text and the code sends it to the model, which is trained on examples of good writing. The model identifies errors and sends back a corrected version. The code then compares the corrected text with the original. In essence, this code acts like a proofreader, helping to improve our text.
+![Screenshot (14)](https://github.com/Cycl0tr0n/Fabric-Hackathon/assets/129075535/06c8de50-ad70-4c75-b4f2-fc5b56c1f39d)
+
